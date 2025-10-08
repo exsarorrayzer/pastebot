@@ -1,7 +1,7 @@
 import json
 from telegram.ext import ContextTypes
 from telegram import Update
-from utils.pastebin import paste_to_pastebin
+from handlers.pastebin import paste_to_pastebin
 
 # Config yükleme
 with open('config.json', 'r') as f:
