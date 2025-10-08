@@ -14,13 +14,13 @@ ASK_FILE_CUSTOM, WAIT_FILE, FILE_ASK_TITLE, FILE_ASK_FORMAT, FILE_ASK_EXPIRE = r
 
 async def pastefile(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != OWNER_ID: return
-    await update.message.reply_text("Özelleştirmek ister misin? (y/n)")
+    await update.message.reply_text("Customization? (y/n)")
     return ASK_FILE_CUSTOM
 
 async def ask_file_custom(update: Update, context: ContextTypes.DEFAULT_TYPE):
     yanit = update.message.text.lower().strip()
     context.user_data['custom'] = (yanit == 'y')
-    await update.message.reply_text("Dosyanı gönder (.txt, .py)")
+    await update.message.reply_text("Send Your File (.txt, .py)")
     return WAIT_FILE
 
 async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -31,14 +31,14 @@ async def handle_file(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['content'] = content.decode()
 
     if context.user_data.get('custom'):
-        await update.message.reply_text("Başlık gir:")
+        await update.message.reply_text("Enter Title:")
         return FILE_ASK_TITLE
     else:
         return await paste_to_pastebin(update, context)
 
 async def file_ask_title(update: Update, context: ContextTypes.DEFAULT_TYPE):
     context.user_data['title'] = update.message.text
-    await update.message.reply_text("Dil formatı gir (.py .txt vb.):")
+    await update.message.reply_text("File Format (.py .txt):")
     return FILE_ASK_FORMAT
 
 async def file_ask_format(update: Update, context: ContextTypes.DEFAULT_TYPE):
@@ -50,7 +50,7 @@ async def file_ask_format(update: Update, context: ContextTypes.DEFAULT_TYPE):
     }
     uzanti = update.message.text.strip()
     context.user_data['format'] = format_map.get(uzanti, "text")
-    await update.message.reply_text("Süre gir (10M, 1H, 1D, 1W, N):")
+    await update.message.reply_text("Enter Expire Duration (10M, 1H, 1D, 1W, N):")
     return FILE_ASK_EXPIRE
 
 async def file_ask_expire(update: Update, context: ContextTypes.DEFAULT_TYPE):
